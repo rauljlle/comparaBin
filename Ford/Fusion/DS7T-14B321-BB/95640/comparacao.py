@@ -1,4 +1,3 @@
-import difflib
 import os
 
 def comparaEndereco(listaDeListas, endereco):
@@ -22,11 +21,27 @@ def montaArray(nArquivos = 2, byts = list()): #nArquivos= numero de arquivos cle
         return retorno
     else:
         indexesFixos = list()
+        hexFixos = list()
         for i, hexa in enumerate(e):
             if comparaEndereco(byts, i):
                 indexesFixos.append(i)
-        # print(indexesFixos)
-        return indexesFixos
+                hexFixos.append(hexa)
+        retorno = list()
+        retorno.append(indexesFixos)
+        retorno.append(hexFixos)
+        return retorno
 
-retorno = montaArray()
+def limpaBin(arrFixos):
+    x = open(os.getcwd()+"/crash.bin", "rb").read()
+    e = list()
+    indexes = arrFixos[0]
+    hexes = arrFixos[1]
+    for i in list(x):
+        e.append(hex(i))
+    for n in range(0, len(indexes)):
+        e[indexes[n]] = hexes[n]
+
+    return e
+
+retorno = limpaBin(montaArray())
 print(retorno)
